@@ -14,8 +14,9 @@ app.post("/", async (req, res) => {
     if (!tokenNya || !idNya || !nis || !pw) {
         return res.status(400).json({ msg: "data body required" });
     }
+    console.log(req.body);
     {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: false });
         // const page = await browser.pages();
         const currentPage = await browser.newPage();
 
@@ -74,7 +75,7 @@ app.listen(port, () => {
     console.log("Running on port " + port)
 });
 
-const scrape = (page = new puppeteer.Page(), nomrSoal, token) => (new Promise(async (resolve, reject) => {
+const scrape = (page, nomrSoal, token) => (new Promise(async (resolve, reject) => {
     for (let i = 1; i < 4; i++) {
         fs.existsSync(`./secret-${i}.txt`) && fs.unlinkSync(`./secret-${i}.txt`);
     }
@@ -144,5 +145,4 @@ const scrape = (page = new puppeteer.Page(), nomrSoal, token) => (new Promise(as
     fs.writeFileSync(`./soal-${nomrSoal}.json`, JSON.stringify(soalTemp), { encoding: 'utf-8' });
 
     if (stats == true) resolve(userData);
-    await page.goto(`${urlUjian}home.php`, { waitUntil: ['domcontentloaded', "networkidle2"] });
 }))
