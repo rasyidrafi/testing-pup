@@ -16,7 +16,7 @@ app.post("/", async (req, res) => {
     }
     console.log(req.body);
     {
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: true });
         // const page = await browser.pages();
         const currentPage = await browser.newPage();
 
